@@ -1,0 +1,137 @@
+type Student @model @key(name: "studget", fields: ["username"], queryField: "studget"){
+  id: ID!
+  username: String!
+  name: String!
+  rollnum: String!
+  course: String
+  class: String
+  section: String
+  classSection: ClassSection! @connection(name: "classStudent")
+  marks: [Marks] @connection(name: "studentMarks")
+  school: School! @connection (name: "schoolstudent")
+  attendance : [Attendance] @connection (name: "studentattendance")
+}
+
+
+type Marks @model {
+  id: ID!
+  type: String!
+  name: String
+  subjectCode: String
+  date: String
+  maxMarks: Int
+  marksObtained: Int
+  exam: Exam @connection(name: "examMarks")
+  assignment: Assignment @connection(name: "assignmentMarks") 
+  student: Student! @connection(name: "studentMarks")
+}
+
+type ClassSection @model {
+  id: ID!
+  mockTests: [String]
+  name: String!
+  strength: Int
+  students: [Student] @connection(name: "classStudent")
+  school: School @connection(name: "classSchool")
+  subjects: [Subject] @connection(name: "classSubject")
+}
+
+
+type TimetableSlot @model {
+  id: ID!
+  time: String
+  endtime: String 
+  subjectCode: String!
+  subjetName: String!
+  faculty: Faculty! @connection(name: "facultyTimetable")
+  day: String!
+  subject: Subject @connection(name: "timetableSubject")
+  conflink:String
+}
+
+type School @model {
+  id: ID!
+  schoolName: String!
+  type: String
+  imageurl: String
+  ftplink: String
+  classSection: [ClassSection] @connection(name: "classSchool")
+  department: [Department] @connection(name: "deptSchool")
+  students : [Student] @connection (name: "schoolstudent")
+}
+
+type Subject @model{
+  id: ID!
+  subjectCode: String!
+  subjectName: String!
+  totalClasses: Int
+  notice: String
+  exams: [Exam] @connection(name: "examSubject")
+  assignment: [Assignment] @connection(name: "assignmentSubject")
+  classSection: ClassSection @connection(name: "classSubject")
+  timetableSlots: [TimetableSlot] @connection(name: "timetableSubject")
+  attendance: Attendance @connection (name: "subjectattendance")
+}
+
+type Faculty @model @key(name: "facget", fields: ["username"], queryField: "facget"){
+  id: ID!
+  facultyName: String!
+  regdNum: String!
+  username: String!
+  designation: String
+  timetableSlot: [TimetableSlot] @connection(name: "facultyTimetable")
+  department: Department @connection(name: "facultyDepartment")
+  attendance: [Attendance] @connection (name : "facultyattendance")
+}
+
+type Department @model{
+  id: ID!
+  departmentName: String!
+  faculty: [Faculty] @connection(name: "facultyDepartment")
+  school: School! @connection(name: "deptSchool")
+}
+
+type Exam @model @key (name: "examsortbytime", fields: ["timestamp"], queryField: "exambynames"){
+  id: ID!
+  name: String!
+  date: String! 
+  marks: [Marks] @connection(name: "examMarks")
+  subject: Subject! @connection(name: "examSubject")
+  uploadJSON: String
+  timestamp : AWSTimestamp
+}
+
+type Assignment @model{
+  id: ID!
+  name: String!
+  marks: [Marks] @connection(name: "assignmentMarks")
+  uploadPDF: [String!]
+  subject: Subject! @connection(name: "assignmentSubject")
+  date: String
+  notice : String
+}
+
+type Query{
+  getFacultyByUsername(username: String!): Faculty
+  getStudentByUsername(username: String!): Student
+  getSubjectByCode(subjectCode:  String!): Subject
+}
+
+type Attendance @model {
+  id: ID!
+  jan: [Int]
+  feb: [Int]
+  mar: [Int]
+  apr: [Int]
+  may: [Int]
+  jun: [Int]
+  jul: [Int]
+  aug: [Int]
+  sep: [Int]
+  oct: [Int]
+  nov: [Int]
+  dec: [Int]
+  subject : Subject  @connection (name: "subjectattendance")
+  student : Student  @connection (name: "studentattendance")
+  faculty : Faculty @connection (name : "facultyattendance")
+}

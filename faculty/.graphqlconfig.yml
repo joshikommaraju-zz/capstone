@@ -1,0 +1,18 @@
+projects:
+  vedaelearning:
+    schemaPath: amplify/backend/api/vedaelearning/build/schema.graphql
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: /graphql
+        region: ap-south-1
+        apiId: null
+        maxDepth: 7
+extensions:
+  amplify:
+    version: 3

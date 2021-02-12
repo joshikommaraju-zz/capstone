@@ -1,0 +1,14 @@
+{
+    "CreateAPIKey": 1,
+    "AppSyncApiName": "vedaelearning",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authvedaelearningfdffea6c",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "S3DeploymentBucket": "amplify-vedaelearning-dev-111227-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/62e4d061e5cf1d462b1980bb8c2f0b497477da7e"
+}

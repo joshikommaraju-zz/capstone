@@ -1,0 +1,925 @@
+type Student {
+  id: ID!
+  username: String!
+  name: String!
+  rollnum: String!
+  course: String
+  class: String
+  section: String
+  classSection: ClassSection!
+  marks(filter: ModelMarksFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelMarksConnection
+  school: School!
+  attendance(filter: ModelAttendanceFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelAttendanceConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Marks {
+  id: ID!
+  type: String!
+  name: String
+  subjectCode: String
+  date: String
+  maxMarks: Int
+  marksObtained: Int
+  exam: Exam
+  assignment: Assignment
+  student: Student!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type ClassSection {
+  id: ID!
+  mockTests: [String]
+  name: String!
+  strength: Int
+  students(filter: ModelStudentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelStudentConnection
+  school: School
+  subjects(filter: ModelSubjectFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelSubjectConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type TimetableSlot {
+  id: ID!
+  time: String
+  endtime: String
+  subjectCode: String!
+  subjetName: String!
+  faculty: Faculty!
+  day: String!
+  subject: Subject
+  conflink: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type School {
+  id: ID!
+  schoolName: String!
+  type: String
+  imageurl: String
+  ftplink: String
+  classSection(filter: ModelClassSectionFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelClassSectionConnection
+  department(filter: ModelDepartmentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelDepartmentConnection
+  students(filter: ModelStudentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelStudentConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Subject {
+  id: ID!
+  subjectCode: String!
+  subjectName: String!
+  totalClasses: Int
+  notice: String
+  exams(filter: ModelExamFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelExamConnection
+  assignment(filter: ModelAssignmentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelAssignmentConnection
+  classSection: ClassSection
+  timetableSlots(filter: ModelTimetableSlotFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTimetableSlotConnection
+  attendance: Attendance
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Faculty {
+  id: ID!
+  facultyName: String!
+  regdNum: String!
+  username: String!
+  designation: String
+  timetableSlot(filter: ModelTimetableSlotFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTimetableSlotConnection
+  department: Department
+  attendance(filter: ModelAttendanceFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelAttendanceConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Department {
+  id: ID!
+  departmentName: String!
+  faculty(filter: ModelFacultyFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelFacultyConnection
+  school: School!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Exam {
+  id: ID!
+  name: String!
+  date: String!
+  marks(filter: ModelMarksFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelMarksConnection
+  subject: Subject!
+  uploadJSON: String
+  timestamp: AWSTimestamp
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Assignment {
+  id: ID!
+  name: String!
+  marks(filter: ModelMarksFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelMarksConnection
+  uploadPDF: [String!]
+  subject: Subject!
+  date: String
+  notice: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Query {
+  getFacultyByUsername(username: String!): Faculty
+  getStudentByUsername(username: String!): Student
+  getSubjectByCode(subjectCode: String!): Subject
+  getStudent(id: ID!): Student
+  listStudents(filter: ModelStudentFilterInput, limit: Int, nextToken: String): ModelStudentConnection
+  getMarks(id: ID!): Marks
+  listMarkss(filter: ModelMarksFilterInput, limit: Int, nextToken: String): ModelMarksConnection
+  getClassSection(id: ID!): ClassSection
+  listClassSections(filter: ModelClassSectionFilterInput, limit: Int, nextToken: String): ModelClassSectionConnection
+  getTimetableSlot(id: ID!): TimetableSlot
+  listTimetableSlots(filter: ModelTimetableSlotFilterInput, limit: Int, nextToken: String): ModelTimetableSlotConnection
+  getSchool(id: ID!): School
+  listSchools(filter: ModelSchoolFilterInput, limit: Int, nextToken: String): ModelSchoolConnection
+  getSubject(id: ID!): Subject
+  listSubjects(filter: ModelSubjectFilterInput, limit: Int, nextToken: String): ModelSubjectConnection
+  getFaculty(id: ID!): Faculty
+  listFacultys(filter: ModelFacultyFilterInput, limit: Int, nextToken: String): ModelFacultyConnection
+  getDepartment(id: ID!): Department
+  listDepartments(filter: ModelDepartmentFilterInput, limit: Int, nextToken: String): ModelDepartmentConnection
+  getExam(id: ID!): Exam
+  listExams(filter: ModelExamFilterInput, limit: Int, nextToken: String): ModelExamConnection
+  getAssignment(id: ID!): Assignment
+  listAssignments(filter: ModelAssignmentFilterInput, limit: Int, nextToken: String): ModelAssignmentConnection
+  getAttendance(id: ID!): Attendance
+  listAttendances(filter: ModelAttendanceFilterInput, limit: Int, nextToken: String): ModelAttendanceConnection
+  studget(username: String, sortDirection: ModelSortDirection, filter: ModelStudentFilterInput, limit: Int, nextToken: String): ModelStudentConnection
+  facget(username: String, sortDirection: ModelSortDirection, filter: ModelFacultyFilterInput, limit: Int, nextToken: String): ModelFacultyConnection
+  exambynames(timestamp: AWSTimestamp, sortDirection: ModelSortDirection, filter: ModelExamFilterInput, limit: Int, nextToken: String): ModelExamConnection
+}
+
+type Attendance {
+  id: ID!
+  jan: [Int]
+  feb: [Int]
+  mar: [Int]
+  apr: [Int]
+  may: [Int]
+  jun: [Int]
+  jul: [Int]
+  aug: [Int]
+  sep: [Int]
+  oct: [Int]
+  nov: [Int]
+  dec: [Int]
+  subject: Subject
+  student: Student
+  faculty: Faculty
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelStudentConnection {
+  items: [Student]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelStudentFilterInput {
+  id: ModelIDInput
+  username: ModelStringInput
+  name: ModelStringInput
+  rollnum: ModelStringInput
+  course: ModelStringInput
+  class: ModelStringInput
+  section: ModelStringInput
+  and: [ModelStudentFilterInput]
+  or: [ModelStudentFilterInput]
+  not: ModelStudentFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input CreateStudentInput {
+  id: ID
+  username: String!
+  name: String!
+  rollnum: String!
+  course: String
+  class: String
+  section: String
+  studentClassSectionId: ID!
+  studentSchoolId: ID!
+}
+
+input UpdateStudentInput {
+  id: ID!
+  username: String
+  name: String
+  rollnum: String
+  course: String
+  class: String
+  section: String
+  studentClassSectionId: ID
+  studentSchoolId: ID
+}
+
+input DeleteStudentInput {
+  id: ID
+}
+
+type Mutation {
+  createStudent(input: CreateStudentInput!, condition: ModelStudentConditionInput): Student
+  updateStudent(input: UpdateStudentInput!, condition: ModelStudentConditionInput): Student
+  deleteStudent(input: DeleteStudentInput!, condition: ModelStudentConditionInput): Student
+  createMarks(input: CreateMarksInput!, condition: ModelMarksConditionInput): Marks
+  updateMarks(input: UpdateMarksInput!, condition: ModelMarksConditionInput): Marks
+  deleteMarks(input: DeleteMarksInput!, condition: ModelMarksConditionInput): Marks
+  createClassSection(input: CreateClassSectionInput!, condition: ModelClassSectionConditionInput): ClassSection
+  updateClassSection(input: UpdateClassSectionInput!, condition: ModelClassSectionConditionInput): ClassSection
+  deleteClassSection(input: DeleteClassSectionInput!, condition: ModelClassSectionConditionInput): ClassSection
+  createTimetableSlot(input: CreateTimetableSlotInput!, condition: ModelTimetableSlotConditionInput): TimetableSlot
+  updateTimetableSlot(input: UpdateTimetableSlotInput!, condition: ModelTimetableSlotConditionInput): TimetableSlot
+  deleteTimetableSlot(input: DeleteTimetableSlotInput!, condition: ModelTimetableSlotConditionInput): TimetableSlot
+  createSchool(input: CreateSchoolInput!, condition: ModelSchoolConditionInput): School
+  updateSchool(input: UpdateSchoolInput!, condition: ModelSchoolConditionInput): School
+  deleteSchool(input: DeleteSchoolInput!, condition: ModelSchoolConditionInput): School
+  createSubject(input: CreateSubjectInput!, condition: ModelSubjectConditionInput): Subject
+  updateSubject(input: UpdateSubjectInput!, condition: ModelSubjectConditionInput): Subject
+  deleteSubject(input: DeleteSubjectInput!, condition: ModelSubjectConditionInput): Subject
+  createFaculty(input: CreateFacultyInput!, condition: ModelFacultyConditionInput): Faculty
+  updateFaculty(input: UpdateFacultyInput!, condition: ModelFacultyConditionInput): Faculty
+  deleteFaculty(input: DeleteFacultyInput!, condition: ModelFacultyConditionInput): Faculty
+  createDepartment(input: CreateDepartmentInput!, condition: ModelDepartmentConditionInput): Department
+  updateDepartment(input: UpdateDepartmentInput!, condition: ModelDepartmentConditionInput): Department
+  deleteDepartment(input: DeleteDepartmentInput!, condition: ModelDepartmentConditionInput): Department
+  createExam(input: CreateExamInput!, condition: ModelExamConditionInput): Exam
+  updateExam(input: UpdateExamInput!, condition: ModelExamConditionInput): Exam
+  deleteExam(input: DeleteExamInput!, condition: ModelExamConditionInput): Exam
+  createAssignment(input: CreateAssignmentInput!, condition: ModelAssignmentConditionInput): Assignment
+  updateAssignment(input: UpdateAssignmentInput!, condition: ModelAssignmentConditionInput): Assignment
+  deleteAssignment(input: DeleteAssignmentInput!, condition: ModelAssignmentConditionInput): Assignment
+  createAttendance(input: CreateAttendanceInput!, condition: ModelAttendanceConditionInput): Attendance
+  updateAttendance(input: UpdateAttendanceInput!, condition: ModelAttendanceConditionInput): Attendance
+  deleteAttendance(input: DeleteAttendanceInput!, condition: ModelAttendanceConditionInput): Attendance
+}
+
+input ModelStudentConditionInput {
+  username: ModelStringInput
+  name: ModelStringInput
+  rollnum: ModelStringInput
+  course: ModelStringInput
+  class: ModelStringInput
+  section: ModelStringInput
+  and: [ModelStudentConditionInput]
+  or: [ModelStudentConditionInput]
+  not: ModelStudentConditionInput
+}
+
+type Subscription {
+  onCreateStudent: Student @aws_subscribe(mutations: ["createStudent"])
+  onUpdateStudent: Student @aws_subscribe(mutations: ["updateStudent"])
+  onDeleteStudent: Student @aws_subscribe(mutations: ["deleteStudent"])
+  onCreateMarks: Marks @aws_subscribe(mutations: ["createMarks"])
+  onUpdateMarks: Marks @aws_subscribe(mutations: ["updateMarks"])
+  onDeleteMarks: Marks @aws_subscribe(mutations: ["deleteMarks"])
+  onCreateClassSection: ClassSection @aws_subscribe(mutations: ["createClassSection"])
+  onUpdateClassSection: ClassSection @aws_subscribe(mutations: ["updateClassSection"])
+  onDeleteClassSection: ClassSection @aws_subscribe(mutations: ["deleteClassSection"])
+  onCreateTimetableSlot: TimetableSlot @aws_subscribe(mutations: ["createTimetableSlot"])
+  onUpdateTimetableSlot: TimetableSlot @aws_subscribe(mutations: ["updateTimetableSlot"])
+  onDeleteTimetableSlot: TimetableSlot @aws_subscribe(mutations: ["deleteTimetableSlot"])
+  onCreateSchool: School @aws_subscribe(mutations: ["createSchool"])
+  onUpdateSchool: School @aws_subscribe(mutations: ["updateSchool"])
+  onDeleteSchool: School @aws_subscribe(mutations: ["deleteSchool"])
+  onCreateSubject: Subject @aws_subscribe(mutations: ["createSubject"])
+  onUpdateSubject: Subject @aws_subscribe(mutations: ["updateSubject"])
+  onDeleteSubject: Subject @aws_subscribe(mutations: ["deleteSubject"])
+  onCreateFaculty: Faculty @aws_subscribe(mutations: ["createFaculty"])
+  onUpdateFaculty: Faculty @aws_subscribe(mutations: ["updateFaculty"])
+  onDeleteFaculty: Faculty @aws_subscribe(mutations: ["deleteFaculty"])
+  onCreateDepartment: Department @aws_subscribe(mutations: ["createDepartment"])
+  onUpdateDepartment: Department @aws_subscribe(mutations: ["updateDepartment"])
+  onDeleteDepartment: Department @aws_subscribe(mutations: ["deleteDepartment"])
+  onCreateExam: Exam @aws_subscribe(mutations: ["createExam"])
+  onUpdateExam: Exam @aws_subscribe(mutations: ["updateExam"])
+  onDeleteExam: Exam @aws_subscribe(mutations: ["deleteExam"])
+  onCreateAssignment: Assignment @aws_subscribe(mutations: ["createAssignment"])
+  onUpdateAssignment: Assignment @aws_subscribe(mutations: ["updateAssignment"])
+  onDeleteAssignment: Assignment @aws_subscribe(mutations: ["deleteAssignment"])
+  onCreateAttendance: Attendance @aws_subscribe(mutations: ["createAttendance"])
+  onUpdateAttendance: Attendance @aws_subscribe(mutations: ["updateAttendance"])
+  onDeleteAttendance: Attendance @aws_subscribe(mutations: ["deleteAttendance"])
+}
+
+type ModelMarksConnection {
+  items: [Marks]
+  nextToken: String
+}
+
+input ModelMarksFilterInput {
+  id: ModelIDInput
+  type: ModelStringInput
+  name: ModelStringInput
+  subjectCode: ModelStringInput
+  date: ModelStringInput
+  maxMarks: ModelIntInput
+  marksObtained: ModelIntInput
+  and: [ModelMarksFilterInput]
+  or: [ModelMarksFilterInput]
+  not: ModelMarksFilterInput
+}
+
+input CreateMarksInput {
+  id: ID
+  type: String!
+  name: String
+  subjectCode: String
+  date: String
+  maxMarks: Int
+  marksObtained: Int
+  marksExamId: ID
+  marksAssignmentId: ID
+  marksStudentId: ID!
+}
+
+input UpdateMarksInput {
+  id: ID!
+  type: String
+  name: String
+  subjectCode: String
+  date: String
+  maxMarks: Int
+  marksObtained: Int
+  marksExamId: ID
+  marksAssignmentId: ID
+  marksStudentId: ID
+}
+
+input DeleteMarksInput {
+  id: ID
+}
+
+input ModelMarksConditionInput {
+  type: ModelStringInput
+  name: ModelStringInput
+  subjectCode: ModelStringInput
+  date: ModelStringInput
+  maxMarks: ModelIntInput
+  marksObtained: ModelIntInput
+  and: [ModelMarksConditionInput]
+  or: [ModelMarksConditionInput]
+  not: ModelMarksConditionInput
+}
+
+type ModelClassSectionConnection {
+  items: [ClassSection]
+  nextToken: String
+}
+
+input ModelClassSectionFilterInput {
+  id: ModelIDInput
+  mockTests: ModelStringInput
+  name: ModelStringInput
+  strength: ModelIntInput
+  and: [ModelClassSectionFilterInput]
+  or: [ModelClassSectionFilterInput]
+  not: ModelClassSectionFilterInput
+}
+
+input CreateClassSectionInput {
+  id: ID
+  mockTests: [String]
+  name: String!
+  strength: Int
+  classSectionSchoolId: ID
+}
+
+input UpdateClassSectionInput {
+  id: ID!
+  mockTests: [String]
+  name: String
+  strength: Int
+  classSectionSchoolId: ID
+}
+
+input DeleteClassSectionInput {
+  id: ID
+}
+
+input ModelClassSectionConditionInput {
+  mockTests: ModelStringInput
+  name: ModelStringInput
+  strength: ModelIntInput
+  and: [ModelClassSectionConditionInput]
+  or: [ModelClassSectionConditionInput]
+  not: ModelClassSectionConditionInput
+}
+
+type ModelTimetableSlotConnection {
+  items: [TimetableSlot]
+  nextToken: String
+}
+
+input ModelTimetableSlotFilterInput {
+  id: ModelIDInput
+  time: ModelStringInput
+  endtime: ModelStringInput
+  subjectCode: ModelStringInput
+  subjetName: ModelStringInput
+  day: ModelStringInput
+  conflink: ModelStringInput
+  and: [ModelTimetableSlotFilterInput]
+  or: [ModelTimetableSlotFilterInput]
+  not: ModelTimetableSlotFilterInput
+}
+
+input CreateTimetableSlotInput {
+  id: ID
+  time: String
+  endtime: String
+  subjectCode: String!
+  subjetName: String!
+  day: String!
+  conflink: String
+  timetableSlotFacultyId: ID!
+  timetableSlotSubjectId: ID
+}
+
+input UpdateTimetableSlotInput {
+  id: ID!
+  time: String
+  endtime: String
+  subjectCode: String
+  subjetName: String
+  day: String
+  conflink: String
+  timetableSlotFacultyId: ID
+  timetableSlotSubjectId: ID
+}
+
+input DeleteTimetableSlotInput {
+  id: ID
+}
+
+input ModelTimetableSlotConditionInput {
+  time: ModelStringInput
+  endtime: ModelStringInput
+  subjectCode: ModelStringInput
+  subjetName: ModelStringInput
+  day: ModelStringInput
+  conflink: ModelStringInput
+  and: [ModelTimetableSlotConditionInput]
+  or: [ModelTimetableSlotConditionInput]
+  not: ModelTimetableSlotConditionInput
+}
+
+type ModelSchoolConnection {
+  items: [School]
+  nextToken: String
+}
+
+input ModelSchoolFilterInput {
+  id: ModelIDInput
+  schoolName: ModelStringInput
+  type: ModelStringInput
+  imageurl: ModelStringInput
+  ftplink: ModelStringInput
+  and: [ModelSchoolFilterInput]
+  or: [ModelSchoolFilterInput]
+  not: ModelSchoolFilterInput
+}
+
+input CreateSchoolInput {
+  id: ID
+  schoolName: String!
+  type: String
+  imageurl: String
+  ftplink: String
+}
+
+input UpdateSchoolInput {
+  id: ID!
+  schoolName: String
+  type: String
+  imageurl: String
+  ftplink: String
+}
+
+input DeleteSchoolInput {
+  id: ID
+}
+
+input ModelSchoolConditionInput {
+  schoolName: ModelStringInput
+  type: ModelStringInput
+  imageurl: ModelStringInput
+  ftplink: ModelStringInput
+  and: [ModelSchoolConditionInput]
+  or: [ModelSchoolConditionInput]
+  not: ModelSchoolConditionInput
+}
+
+type ModelSubjectConnection {
+  items: [Subject]
+  nextToken: String
+}
+
+input ModelSubjectFilterInput {
+  id: ModelIDInput
+  subjectCode: ModelStringInput
+  subjectName: ModelStringInput
+  totalClasses: ModelIntInput
+  notice: ModelStringInput
+  and: [ModelSubjectFilterInput]
+  or: [ModelSubjectFilterInput]
+  not: ModelSubjectFilterInput
+}
+
+input CreateSubjectInput {
+  id: ID
+  subjectCode: String!
+  subjectName: String!
+  totalClasses: Int
+  notice: String
+  subjectClassSectionId: ID
+  subjectAttendanceId: ID
+}
+
+input UpdateSubjectInput {
+  id: ID!
+  subjectCode: String
+  subjectName: String
+  totalClasses: Int
+  notice: String
+  subjectClassSectionId: ID
+  subjectAttendanceId: ID
+}
+
+input DeleteSubjectInput {
+  id: ID
+}
+
+input ModelSubjectConditionInput {
+  subjectCode: ModelStringInput
+  subjectName: ModelStringInput
+  totalClasses: ModelIntInput
+  notice: ModelStringInput
+  and: [ModelSubjectConditionInput]
+  or: [ModelSubjectConditionInput]
+  not: ModelSubjectConditionInput
+}
+
+type ModelFacultyConnection {
+  items: [Faculty]
+  nextToken: String
+}
+
+input ModelFacultyFilterInput {
+  id: ModelIDInput
+  facultyName: ModelStringInput
+  regdNum: ModelStringInput
+  username: ModelStringInput
+  designation: ModelStringInput
+  and: [ModelFacultyFilterInput]
+  or: [ModelFacultyFilterInput]
+  not: ModelFacultyFilterInput
+}
+
+input CreateFacultyInput {
+  id: ID
+  facultyName: String!
+  regdNum: String!
+  username: String!
+  designation: String
+  facultyDepartmentId: ID
+}
+
+input UpdateFacultyInput {
+  id: ID!
+  facultyName: String
+  regdNum: String
+  username: String
+  designation: String
+  facultyDepartmentId: ID
+}
+
+input DeleteFacultyInput {
+  id: ID
+}
+
+input ModelFacultyConditionInput {
+  facultyName: ModelStringInput
+  regdNum: ModelStringInput
+  username: ModelStringInput
+  designation: ModelStringInput
+  and: [ModelFacultyConditionInput]
+  or: [ModelFacultyConditionInput]
+  not: ModelFacultyConditionInput
+}
+
+type ModelDepartmentConnection {
+  items: [Department]
+  nextToken: String
+}
+
+input ModelDepartmentFilterInput {
+  id: ModelIDInput
+  departmentName: ModelStringInput
+  and: [ModelDepartmentFilterInput]
+  or: [ModelDepartmentFilterInput]
+  not: ModelDepartmentFilterInput
+}
+
+input CreateDepartmentInput {
+  id: ID
+  departmentName: String!
+  departmentSchoolId: ID!
+}
+
+input UpdateDepartmentInput {
+  id: ID!
+  departmentName: String
+  departmentSchoolId: ID
+}
+
+input DeleteDepartmentInput {
+  id: ID
+}
+
+input ModelDepartmentConditionInput {
+  departmentName: ModelStringInput
+  and: [ModelDepartmentConditionInput]
+  or: [ModelDepartmentConditionInput]
+  not: ModelDepartmentConditionInput
+}
+
+type ModelExamConnection {
+  items: [Exam]
+  nextToken: String
+}
+
+input ModelExamFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  date: ModelStringInput
+  uploadJSON: ModelStringInput
+  timestamp: ModelIntInput
+  and: [ModelExamFilterInput]
+  or: [ModelExamFilterInput]
+  not: ModelExamFilterInput
+}
+
+input CreateExamInput {
+  id: ID
+  name: String!
+  date: String!
+  uploadJSON: String
+  timestamp: AWSTimestamp
+  examSubjectId: ID!
+}
+
+input UpdateExamInput {
+  id: ID!
+  name: String
+  date: String
+  uploadJSON: String
+  timestamp: AWSTimestamp
+  examSubjectId: ID
+}
+
+input DeleteExamInput {
+  id: ID
+}
+
+input ModelExamConditionInput {
+  name: ModelStringInput
+  date: ModelStringInput
+  uploadJSON: ModelStringInput
+  timestamp: ModelIntInput
+  and: [ModelExamConditionInput]
+  or: [ModelExamConditionInput]
+  not: ModelExamConditionInput
+}
+
+type ModelAssignmentConnection {
+  items: [Assignment]
+  nextToken: String
+}
+
+input ModelAssignmentFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  uploadPDF: ModelStringInput
+  date: ModelStringInput
+  notice: ModelStringInput
+  and: [ModelAssignmentFilterInput]
+  or: [ModelAssignmentFilterInput]
+  not: ModelAssignmentFilterInput
+}
+
+input CreateAssignmentInput {
+  id: ID
+  name: String!
+  uploadPDF: [String!]
+  date: String
+  notice: String
+  assignmentSubjectId: ID!
+}
+
+input UpdateAssignmentInput {
+  id: ID!
+  name: String
+  uploadPDF: [String!]
+  date: String
+  notice: String
+  assignmentSubjectId: ID
+}
+
+input DeleteAssignmentInput {
+  id: ID
+}
+
+input ModelAssignmentConditionInput {
+  name: ModelStringInput
+  uploadPDF: ModelStringInput
+  date: ModelStringInput
+  notice: ModelStringInput
+  and: [ModelAssignmentConditionInput]
+  or: [ModelAssignmentConditionInput]
+  not: ModelAssignmentConditionInput
+}
+
+type ModelAttendanceConnection {
+  items: [Attendance]
+  nextToken: String
+}
+
+input ModelAttendanceFilterInput {
+  id: ModelIDInput
+  jan: ModelIntInput
+  feb: ModelIntInput
+  mar: ModelIntInput
+  apr: ModelIntInput
+  may: ModelIntInput
+  jun: ModelIntInput
+  jul: ModelIntInput
+  aug: ModelIntInput
+  sep: ModelIntInput
+  oct: ModelIntInput
+  nov: ModelIntInput
+  dec: ModelIntInput
+  and: [ModelAttendanceFilterInput]
+  or: [ModelAttendanceFilterInput]
+  not: ModelAttendanceFilterInput
+}
+
+input CreateAttendanceInput {
+  id: ID
+  jan: [Int]
+  feb: [Int]
+  mar: [Int]
+  apr: [Int]
+  may: [Int]
+  jun: [Int]
+  jul: [Int]
+  aug: [Int]
+  sep: [Int]
+  oct: [Int]
+  nov: [Int]
+  dec: [Int]
+  attendanceSubjectId: ID
+  attendanceStudentId: ID
+  attendanceFacultyId: ID
+}
+
+input UpdateAttendanceInput {
+  id: ID!
+  jan: [Int]
+  feb: [Int]
+  mar: [Int]
+  apr: [Int]
+  may: [Int]
+  jun: [Int]
+  jul: [Int]
+  aug: [Int]
+  sep: [Int]
+  oct: [Int]
+  nov: [Int]
+  dec: [Int]
+  attendanceSubjectId: ID
+  attendanceStudentId: ID
+  attendanceFacultyId: ID
+}
+
+input DeleteAttendanceInput {
+  id: ID
+}
+
+input ModelAttendanceConditionInput {
+  jan: ModelIntInput
+  feb: ModelIntInput
+  mar: ModelIntInput
+  apr: ModelIntInput
+  may: ModelIntInput
+  jun: ModelIntInput
+  jul: ModelIntInput
+  aug: ModelIntInput
+  sep: ModelIntInput
+  oct: ModelIntInput
+  nov: ModelIntInput
+  dec: ModelIntInput
+  and: [ModelAttendanceConditionInput]
+  or: [ModelAttendanceConditionInput]
+  not: ModelAttendanceConditionInput
+}

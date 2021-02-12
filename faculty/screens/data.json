@@ -1,0 +1,55 @@
+{
+"heading":"Assignment 4.2",
+"date":"29-06-1999",
+"time":"10",
+"endtime":"10:30",
+"totalmarks":40,
+"totalQues" : 4,
+"marknegative":"True",
+"questions":[
+    {
+        "question":"How are you?",
+        "option":[
+            "Fine",
+            "Bad",
+            "None of ur business",
+            "Alive"
+        ],
+        "correct":"3",
+        "marks":10
+    },
+    {
+        "question":"whats the time?",
+        "option":[
+            "0500",
+            "6:30",
+            "hallaleuah",
+            "allah hu akbar"
+        ],
+        "correct":"3",
+        "marks":10
+    },
+    {
+        "question":"Where are u from?",
+        "option":[
+            "dork",
+            "pork",
+            "Ass",
+            "Baggle"
+        ],
+        "correct":"2",
+        "marks":10
+    },
+    {
+        "question":"Gender?",
+        "option":[
+            "male",
+            "female",
+            "trans",
+            "***"
+        ],
+        "correct":"3",
+        "marks":10
+    }
+]
+}

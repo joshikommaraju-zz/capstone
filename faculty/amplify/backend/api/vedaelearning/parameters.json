@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "vedaelearning",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authvedaelearningfdffea6c",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

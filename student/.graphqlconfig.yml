@@ -1,0 +1,18 @@
+projects:
+  vedav2b:
+    schemaPath: amplify/backend/api/vedav2b/build/schema.graphql
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: src/graphql
+        region: ap-south-1
+        apiId: null
+        maxDepth: 7
+extensions:
+  amplify:
+    version: 3
